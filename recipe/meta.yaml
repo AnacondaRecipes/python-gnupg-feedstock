@@ -1,32 +1,41 @@
 {% set name = "python-gnupg" %}
 {% set version = "0.5.0" %}
-{% set sha256 = "70758e387fc0e0c4badbcb394f61acbe68b34970a8fed7e0f7c89469fe17912a" %}
 
 package:
   name: {{ name }}
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  sha256: 70758e387fc0e0c4badbcb394f61acbe68b34970a8fed7e0f7c89469fe17912a
 
 build:
-  noarch: python
+  # gnupg isn't available on windows
+  skip: True  # [win]
   number: 0
-  script: {{ PYTHON }} -m pip install . --no-deps -vv
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   host:
     - pip
-    - python >=2.7
-
+    - setuptools
+    - wheel
+    - python
   run:
-    - python >=2.7
+    - python
+    - gnupg
 
 test:
+  source_files:
+    - test_gnupg.py
+  requires:
+   - pip
+   - pytest
   imports:
     - gnupg
+  commands:
+    - pip check
+    - pytest -v
 
 about:
   home: http://pythonhosted.org/python-gnupg
