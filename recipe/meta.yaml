@@ -37,15 +37,22 @@ test:
     - gnupg
   commands:
     - pip check
-    # Skip test_search_keys which the upstream maintainers indicate is unstable
+    # Skip test_search_keys since the default keyserver `pgp.mit.edu` is down
     - export NO_EXTERNAL_TESTS=1
     - pytest -v {{ skip_test_invalid_outputs }}
 
 about:
   home: http://pythonhosted.org/python-gnupg
+  doc_url: http://pythonhosted.org/python-gnupg
+  dev_url: https://github.com/vsajip/python-gnupg
   license: BSD-3-Clause
+  license_family: BSD
   license_file: LICENSE.txt
   summary: A wrapper for the Gnu Privacy Guard (GPG or GnuPG)
+  description: |
+    The gnupg module allows Python programs to make use of the functionality provided by the GNU Privacy Guard (abbreviated GPG or GnuPG). 
+    Using this module, Python programs can encrypt and decrypt data, digitally sign documents and verify digital signatures, 
+    manage (generate, list and delete) encryption keys, using proven Public Key Infrastructure (PKI) encryption technology based on OpenPGP.
 
 extra:
   recipe-maintainers:
