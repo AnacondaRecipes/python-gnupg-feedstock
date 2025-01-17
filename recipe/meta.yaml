@@ -36,7 +36,7 @@ test:
   commands:
     - pip check
     # Skip test_search_keys which the upstream maintainers indicate is unstable
-    - export NO_EXTERNAL_TESTS
+    - export NO_EXTERNAL_TESTS=1
     - pytest -v
 
 about:
