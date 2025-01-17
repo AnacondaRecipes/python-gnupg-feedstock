@@ -42,8 +42,8 @@ test:
     - pytest -v {{ skip_test_invalid_outputs }}
 
 about:
-  home: http://pythonhosted.org/python-gnupg
-  doc_url: http://pythonhosted.org/python-gnupg
+  home: https://pythonhosted.org/python-gnupg
+  doc_url: https://pythonhosted.org/python-gnupg
   dev_url: https://github.com/vsajip/python-gnupg
   license: BSD-3-Clause
   license_family: BSD
