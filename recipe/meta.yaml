@@ -10,8 +10,8 @@ source:
   sha256: 70758e387fc0e0c4badbcb394f61acbe68b34970a8fed7e0f7c89469fe17912a
 
 build:
-  # gnupg isn't available on windows
-  skip: True  # [win]
+  # gnupg isn't available on windows nor s390x
+  skip: True  # [win or s390x]
   number: 0
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
