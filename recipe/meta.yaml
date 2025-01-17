@@ -1,6 +1,7 @@
 {% set name = "python-gnupg" %}
 {% set version = "0.5.0" %}
-{% set skip_test_invalid_outputs = "-k 'not test_invalid_outputs'" %} # [linux]
+{% set skip_test_invalid_outputs = "" %}
+{% set skip_test_invalid_outputs = skip_test_invalid_outputs + "-k 'not test_invalid_outputs'" %} # [linux]
 
 package:
   name: {{ name }}
