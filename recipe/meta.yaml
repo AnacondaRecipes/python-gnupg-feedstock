@@ -1,38 +1,58 @@
 {% set name = "python-gnupg" %}
 {% set version = "0.5.0" %}
-{% set sha256 = "70758e387fc0e0c4badbcb394f61acbe68b34970a8fed7e0f7c89469fe17912a" %}
+{% set skip_test_invalid_outputs = "" %}
+{% set skip_test_invalid_outputs = skip_test_invalid_outputs + "-k 'not test_invalid_outputs'" %} # [linux]
 
 package:
   name: {{ name }}
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  sha256: 70758e387fc0e0c4badbcb394f61acbe68b34970a8fed7e0f7c89469fe17912a
 
 build:
-  noarch: python
+  # gnupg isn't available on windows nor s390x
+  skip: True  # [win or s390x]
   number: 0
-  script: {{ PYTHON }} -m pip install . --no-deps -vv
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   host:
     - pip
-    - python >=2.7
-
+    - setuptools
+    - wheel
+    - python
   run:
-    - python >=2.7
-
-test:
-  imports:
+    - python
     - gnupg
 
+test:
+  source_files:
+    - test_gnupg.py
+  requires:
+    - pip
+    - pytest
+  imports:
+    - gnupg
+  commands:
+    - pip check
+    # Skip test_search_keys since the default keyserver `pgp.mit.edu` is down
+    - export NO_EXTERNAL_TESTS=1
+    - pytest -v {{ skip_test_invalid_outputs }}
+
 about:
-  home: http://pythonhosted.org/python-gnupg
+  home: https://pythonhosted.org/python-gnupg
+  doc_url: https://pythonhosted.org/python-gnupg
+  dev_url: https://github.com/vsajip/python-gnupg
   license: BSD-3-Clause
+  license_family: BSD
   license_file: LICENSE.txt
   summary: A wrapper for the Gnu Privacy Guard (GPG or GnuPG)
+  description: |
+    The gnupg module allows Python programs to make use of the functionality provided by the GNU Privacy Guard (abbreviated GPG or GnuPG). 
+    Using this module, Python programs can encrypt and decrypt data, digitally sign documents and verify digital signatures, 
+    manage (generate, list and delete) encryption keys, using proven Public Key Infrastructure (PKI) encryption technology based on OpenPGP.
 
 extra:
   recipe-maintainers:
